@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% block content %}
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>PoupeMe</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="static/css/grayscale.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <img src="static/img/icon.png" width="50px" height="50px">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">PoupeMe</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">Sobre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#subscribe">Inscrição</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#log">Entrar</a>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">Contato</a>
+          </li>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- About Section -->
+  <header class="masthead" id="about">En
+    <div class="container d-flex h-100 align-items-center">
+      <div class="mx-auto text-center">
+        <h1 class="mx-auto my-0">PoupeMe</h1>
+        <h2 class=" mx-auto mt-2 mb-5">Implementação de um programa web de planejamento financeiro com uma interface fácil e intuitiva que auxilia o usuário a planejar suas finanças, quitar suas dívidas e poupar dinheiro para atingir um objetivo financeiro.</h2>
+        <a href="#subscribe" class="btn btn-primary js-scroll-trigger">Começar</a>
+      </div>
+    </div>
+  </header>
+
+  
+  <section id="subscribe" class="about-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h2 class="mb-4  text-center">Digite seus dados para começarmos</h2>
+            <form id="form" action="/handle_form" method="POST" class="form-group text-center">
+             {{ form.hidden_tag() }}
+              <label id="name-label">* Nome:
+              {{ form.name() }}
+              </label>
+              <br/><br/>
+              
+              <label id="email-label">* Email:<br/>
+              {{ form.email() }}
+              </label>
+                <br/><br/>
+
+              <label id="pass-label">* Senha:<br/>
+              {{ form.password() }}
+              </label>
+              <label id="confirmPass-label">* Confirmar Senha:<br/>
+              {{ form.password_confirm() }}
+              </label>
+                <br/><br/>
+                <hr>
+              <div class="row">
+                <h2 class="mb-4  text-center">Nos diga um pouco sobre você para criarmos seu perfil</h2>
+
+                <div class="col">
+                  <label id="salario-label">* Renda Mensal:<br/>
+                  {{ form.income() }}
+                  </label>
+                    <br/><br/>
+
+                  <label id="poupanca-label">* Receita total:<br/>
+                  {{ form.savings() }}
+                  </label>
+                    <br/><br/>
+
+                  <label id="tpInvestimento-label">  Tipo de Investimento:<br/>
+                  <select class="form-control" name="tpInvestimento" onchange="habilitaInvestimentos()">
+                    <option value="corrente">Conta corrente</option>
+                    <option value="poupanca">Poupança</option>
+                    <option value="tesouro">Tesouro</option>
+                    <option value="cdbPre">CDB Prefixado</option>
+                    <option value="cdbPos">CDB Pós-fixado</option>
+                    <option value="lciPos">LCI Pós-fixado(6%)</option>
+                    <option value="lciPos2">LCI Pós-fixado(95%)</option>
+                    <option value="fundoFixo">Fundo de renda fixa</option>
+                    <option value="fundoMultiMerc">Fundo Multimercado</option>
+                    <option value="insTaxa">Insira a taxa</option>
+                  </select>
+                  </label>
+                    <br/><br/>
+
+                  <label id="taxa-label">  Taxa:<br/>
+                  <input type="number" name="taxa" placeholder="" class="form-control" value="0" disabled="disabled">
+                  </label>
+                    <br/><br/>
+                </div>
+
+                <div class="col">
+                  <label id="divida-label">  Dívida:<br/>
+                  {{ form.debt() }}
+                  </label>
+                    <br/><br/>
+
+                  <label id="tpDivida-label">  Tipo de dívida:<br/>
+                  <select class="form-control" name="tpDivida" onchange="habilitaJuros()">
+                    <option value="cartCred">Cartão de crédito</option>
+                    <option value="emp">Empréstimo</option>
+                    <option value="fin">Financiamento</option>
+                    <option value="insJuros">Insira o juros</option>
+                  </select>
+                  </label>
+                    <br/><br/>
+
+                  <label id="juros-label">  Juros:<br/>
+                  <input type="number" name="juros" placeholder="" class="form-control" value="14" disabled="disabled">
+                  </label>
+                    <br/><br/>
+
+                  <label id="objetivo-label">* Objetivo:<br/>
+                  {{ form.objective() }}
+                  </label>
+                    <br/><br/>
+                </div>  
+              </div>
+              <hr>
+                <h2 class="mb-4  text-center">Digite seus gastos mensais para calcularmos seu planejamento ideal:</h2>
+                <div class="container">
+                  <div class="row">
+                    <div class="col">
+                      <label id="aluguel-label">* Aluguel:<br/>
+                      {{ form.rent() }}
+                      </label>
+                        <br/><br/>
+
+                      <label id="transporte-label">* Transporte:<br/>
+                      {{ form.transport() }}
+                      </label>
+                        <br/><br/>
+
+                        <label id="alimentacao-label">* Alimentação:<br/>
+                      {{ form.food() }}
+                      </label>
+                        <br/><br/>
+                    </div>
+
+                    <div class="col">
+                      <label id="contas-label">* Contas:<br/>
+                      {{ form.bills() }}
+                      </label>
+                        <br/><br/>
+
+                      <label id="impostos-label">* Compras:<br/>
+                      {{ form.shopping() }}
+                      </label>
+                        <br/><br/>
+
+                      <label id="outros-label">  Extras:<br/>
+                      {{ form.extra() }}
+                      </label>
+                        <br/><br/>
+                    </div>
+                  </div>
+                  {{ form.submit() }}	
+                <br/>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Signup Section -->
+  <section id="log" class="signup-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-lg-8 mx-auto text-center">
+
+          <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+          <h2 class="text-white mb-5">Entre!</h2>
+
+          <form class="form-inline d-flex" id="loginForm" method="POST">
+            {{ entry.email() }}
+            {{ entry.password() }}
+            {{ entry.submit() }}
+          </form>
+          <br/>
+          <p>Criado por alunos de uma úniversidade para ajudar qualquer pessoa a controlar seu dinheiro, ou para retomar o controle dele!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section bg-blue" id="contact">
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-4 mb-3 mb-md-0">
+          <div class="card py-4 h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-map-marked-alt text-primary mb-2"></i>
+              <h4 class="text-uppercase m-0">Endereço</h4>
+              <hr class="my-4">
+              <div class="small text-black-50">ICMC/USP, São Carlos - SP</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3 mb-md-0">
+          <div class="card py-4 h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-envelope text-primary mb-2"></i>
+              <h4 class="text-uppercase m-0">Email</h4>
+              <hr class="my-4">
+              <div class="small text-black-50">
+                <a href="#">contato@poupeme.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-3 mb-md-0">
+          <div class="card py-4 h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-mobile-alt text-primary mb-2"></i>
+              <h4 class="text-uppercase m-0">Phone</h4>
+              <hr class="my-4">
+              <div class="small text-black-50">(Em breve)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="social d-flex justify-content-center">
+        <a href="#" class="mx-2">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="mx-2">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="mx-2">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue small text-center text-white-70">
+    <div class="container">
+      Copyright &copy; João Villaça, Luca Bottino, Gustavo Oliveira
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="static/vendor/jquery/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="static/js/grayscale.min.js"></script>
+
+</body>
+{% endblock content %}
+</html>
